@@ -53,8 +53,8 @@ import scala.collection.Map
  */
 object TestUtils extends Logging {
 
-  val IoTmpDir = System.getProperty("java.io.tmpdir")
-
+//  val IoTmpDir = System.getProperty("java.io.tmpdir")
+  val IoTmpDir = "f:\\temp\\"
   val Letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
   val Digits = "0123456789"
   val LettersAndDigits = Letters + Digits

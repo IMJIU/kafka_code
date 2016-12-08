@@ -254,14 +254,14 @@ class Log(val dir: File,
    * @return Information about the appended messages including the first and last offset.
    */
   def append(messages: ByteBufferMessageSet, assignOffsets: Boolean = true): LogAppendInfo = {
-    val appendInfo = analyzeAndValidateMessageSet(messages)
+    val appendInfo = analyzeAndValidateMessageSet(messages)//生成LogAppendInfo
     
     // if we have any valid messages, append them to the log
     if(appendInfo.shallowCount == 0)
       return appendInfo
       
     // trim any invalid bytes or partial messages before appending it to the on-disk log
-    var validMessages = trimInvalidBytes(messages, appendInfo)
+    var validMessages = trimInvalidBytes(messages, appendInfo)//过滤有效字符
 
     try {
       // they are valid, insert them in the log

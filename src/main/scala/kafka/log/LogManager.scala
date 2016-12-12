@@ -103,6 +103,7 @@ class LogManager(val logDirs: Array[File],
   
   /**
    * Recover and load all logs in the given data directories
+    * 加载目录下所有的topic-partition到 logs:Pool[TopicAndPartition, Log]
    */
   private def loadLogs(): Unit = {
     info("Loading logs.")
@@ -173,6 +174,12 @@ class LogManager(val logDirs: Array[File],
 
   /**
    *  Start the background threads to flush logs and do log cleanup
+    *  启动定时任务
+    *  1.日志保留（大小、保留时间）
+    *  2.fileChannnel.flush()策略
+    *  3.写入segment的recoverPointOffset
+    *
+    *  启动cleaner
    */
   def startup() {
     /* Schedule the cleanup task to delete old logs */

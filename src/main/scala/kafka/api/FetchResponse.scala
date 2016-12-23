@@ -82,7 +82,7 @@ object TopicData {
     val topicPartitionDataPairs = (1 to partitionCount).map(_ => {
       val partitionId = buffer.getInt
       val partitionData = FetchResponsePartitionData.readFrom(buffer)
-      (partitionId, partitionData)
+      (partitionId, partitionData)   /* pData : 4(error)+8(hw)+4(msize)+n(data) */
     })
     TopicData(topic, Map(topicPartitionDataPairs:_*))
   }

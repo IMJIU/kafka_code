@@ -76,8 +76,7 @@ abstract class AbstractFetcherThread(name: String, clientId: String, sourceBroke
         partitionMapCond.await(200L, TimeUnit.MILLISECONDS)
       partitionMap.foreach {
         case((topicAndPartition, offset)) =>
-          fetchRequestBuilder.addFetch(topicAndPartition.topic, topicAndPartition.partition,
-                           offset, fetchSize)
+          fetchRequestBuilder.addFetch(topicAndPartition.topic, topicAndPartition.partition,offset, fetchSize)
       }
     }
 

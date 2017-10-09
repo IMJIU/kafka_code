@@ -8,8 +8,13 @@
   <name>kafka_t01 Maven Webapp</name>
   <url>http://maven.apache.org</url>
   <dependencies>
-
-    <!-- https://mvnrepository.com/artifact/com.alibaba.jstorm/jstorm-core
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.1</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/com.alibaba.jstorm/jstorm- core
     <dependency>
       <groupId>com.alibaba.jstorm</groupId>
       <artifactId>jstorm-core</artifactId>
@@ -35,12 +40,7 @@
       <version>1.7.6</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.1</version>
-      <scope>test</scope>
-    </dependency>
+
     <dependency>
       <groupId>com.yammer.metrics</groupId>
       <artifactId>metrics-core</artifactId>

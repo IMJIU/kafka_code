@@ -514,6 +514,7 @@ class ConnectionQuotas(val defaultMax: Int, overrideQuotas: Map[String, Int]) {
       val count = counts.getOrElse(addr, 0)
       counts.put(addr, count + 1)
       val max = overrides.getOrElse(addr, defaultMax)
+      System.out.println(count + "-" + max)
       if(count >= max)
         throw new TooManyConnectionsException(addr, max)
     }

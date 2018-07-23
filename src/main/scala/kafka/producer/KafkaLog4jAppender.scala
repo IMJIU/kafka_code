@@ -69,7 +69,7 @@ class KafkaLog4jAppender extends AppenderSkeleton with Logging {
 
   override def append(event: LoggingEvent)  {
     val message = subAppend(event)
-    LogLog.debug("[" + new Date(event.getTimeStamp).toString + "]" + message)
+    LogLog.debug("[" + new Date(event.timeStamp).toString + "]" + message)
     val response = producer.send(new ProducerRecord[Array[Byte],Array[Byte]](topic, message.getBytes()))
     if (syncSend) response.get
   }

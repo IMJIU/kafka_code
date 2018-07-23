@@ -20,9 +20,8 @@
       <artifactId>jstorm-core</artifactId>
       <version>2.1.1</version>
     </dependency>
-
 -->
-   <!-- <dependency>
+    <dependency>
       <groupId>org.apache.kafka</groupId>
       <artifactId>kafka-clients</artifactId>
       <version>0.8.2.2</version>
@@ -82,10 +81,10 @@
       <artifactId>zkclient</artifactId>
       <version>0.3</version>
       <scope>compile</scope>
-    </dependency>-->
+    </dependency>
 
 
-    <!-- scala 2.11 -->
+    <!-- scala 2.11
     <dependency>
       <groupId>org.scala-lang.modules</groupId>
       <artifactId>scala-xml_2.11</artifactId>
@@ -122,6 +121,7 @@
       <version>0.3</version>
       <scope>compile</scope>
     </dependency>
+     -->
     <dependency>
       <groupId>org.objenesis</groupId>
       <artifactId>objenesis</artifactId>

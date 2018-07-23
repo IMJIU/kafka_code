@@ -1,19 +1,19 @@
 /**
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+  * Licensed to the Apache Software Foundation (ASF) under one or more
+  * contributor license agreements.  See the NOTICE file distributed with
+  * this work for additional information regarding copyright ownership.
+  * The ASF licenses this file to You under the Apache License, Version 2.0
+  * (the "License"); you may not use this file except in compliance with
+  * the License.  You may obtain a copy of the License at
+  *
+  * http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
+  */
 
 package kafka.producer
 
@@ -45,15 +45,15 @@ class SyncProducer(val config: SyncProducerConfig) extends Logging {
 
   private def verifyRequest(request: RequestOrResponse) = {
     /**
-     * This seems a little convoluted, but the idea is to turn on verification simply changing log4j settings
-     * Also, when verification is turned on, care should be taken to see that the logs don't fill up with unnecessary
-     * data. So, leaving the rest of the logging at TRACE, while errors should be logged at ERROR level
-     */
+      * This seems a little convoluted, but the idea is to turn on verification simply changing log4j settings
+      * Also, when verification is turned on, care should be taken to see that the logs don't fill up with unnecessary
+      * data. So, leaving the rest of the logging at TRACE, while errors should be logged at ERROR level
+      */
     if (logger.isDebugEnabled) {
       val buffer = new BoundedByteBufferSend(request).buffer
       trace("verifying sendbuffer of size " + buffer.limit)
       val requestTypeId = buffer.getShort()
-      if(requestTypeId == RequestKeys.ProduceKey) {
+      if (requestTypeId == RequestKeys.ProduceKey) {
         val request = ProducerRequest.readFrom(buffer)
         trace(request.toString)
       }
@@ -61,8 +61,8 @@ class SyncProducer(val config: SyncProducerConfig) extends Logging {
   }
 
   /**
-   * Common functionality for the public send methods
-   */
+    * Common functionality for the public send methods
+    */
   private def doSend(request: RequestOrResponse, readResponse: Boolean = true): Receive = {
     lock synchronized {
       verifyRequest(request)
@@ -71,12 +71,13 @@ class SyncProducer(val config: SyncProducerConfig) extends Logging {
       var response: Receive = null
       try {
         blockingChannel.send(request)
-        if(readResponse)
+        if (readResponse) {
           response = blockingChannel.receive()
-        else
+        } else
           trace("Skipping reading response")
       } catch {
         case e: java.io.IOException =>
+          println("why close!!" + e.getMessage)
           // no way to tell if write succeeded. Disconnect and re-throw exception to let client handle retry
           disconnect()
           throw e
@@ -87,9 +88,9 @@ class SyncProducer(val config: SyncProducerConfig) extends Logging {
   }
 
   /**
-   * Send a message. If the producerRequest had required.request.acks=0, then the
-   * returned response object is null
-   */
+    * Send a message. If the producerRequest had required.request.acks=0, then the
+    * returned response object is null
+    */
   def send(producerRequest: ProducerRequest): ProducerResponse = {
     val requestSize = producerRequest.sizeInBytes
     producerRequestStats.getProducerRequestStats(config.host, config.port).requestSizeHist.update(requestSize)
@@ -100,10 +101,10 @@ class SyncProducer(val config: SyncProducerConfig) extends Logging {
     val aggregateTimer = producerRequestStats.getProducerRequestAllBrokersStats.requestTimer
     aggregateTimer.time {
       specificTimer.time {
-        response = doSend(producerRequest, if(producerRequest.requiredAcks == 0) false else true)
+        response = doSend(producerRequest, if (producerRequest.requiredAcks == 0) false else true)
       }
     }
-    if(producerRequest.requiredAcks != 0)
+    if (producerRequest.requiredAcks != 0)
       ProducerResponse.readFrom(response.buffer)
     else
       null
@@ -122,9 +123,9 @@ class SyncProducer(val config: SyncProducerConfig) extends Logging {
   }
 
   /**
-   * Disconnect from current channel, closing connection.
-   * Side effect: channel field is set to null on successful disconnect
-   */
+    * Disconnect from current channel, closing connection.
+    * Side effect: channel field is set to null on successful disconnect
+    */
   private def disconnect() {
     try {
       info("Disconnecting from " + formatAddress(config.host, config.port))
@@ -151,7 +152,7 @@ class SyncProducer(val config: SyncProducerConfig) extends Logging {
   }
 
   private def getOrMakeConnection() {
-    if(!blockingChannel.isConnected) {
+    if (!blockingChannel.isConnected) {
       connect()
     }
   }

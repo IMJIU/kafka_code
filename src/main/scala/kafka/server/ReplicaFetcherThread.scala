@@ -58,6 +58,7 @@ class ReplicaFetcherThread(name:String,
       // for the follower replica, we do not need to keep
       // its segment base offset the physical position,
       // these values will be computed upon making the leader
+      logger.info("=== processPartitionData.id%s.highWatermark =%s".format(replica.brokerId, new LogOffsetMetadata(followerHighWatermark)))
       replica.highWatermark = new LogOffsetMetadata(followerHighWatermark)
       trace("Follower %d set replica high watermark for partition [%s,%d] to %s"
             .format(replica.brokerId, topic, partitionId, followerHighWatermark))

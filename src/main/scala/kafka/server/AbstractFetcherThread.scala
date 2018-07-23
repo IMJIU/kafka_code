@@ -121,6 +121,7 @@ abstract class AbstractFetcherThread(name: String, clientId: String, sourceBroke
                       case None => currentOffset.get
                     }
                     partitionMap.put(topicAndPartition, newOffset)
+                    logger.info("=== %s:newOffset:%s".format(topicAndPartition,newOffset));
                     fetcherLagStats.getFetcherLagStats(topic, partitionId).lag = partitionData.hw - newOffset
                     fetcherStats.byteRate.mark(validBytes)
                     // Once we hand off the partition data to the subclass, we can't mess with it any more in this thread
